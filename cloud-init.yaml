@@ -1,0 +1,82 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+
+timezone: Europe/Andorra
+
+packages:
+  - bash-completion
+  - bubblewrap
+  - ca-certificates
+  - curl
+  - git
+  - htop
+  - net-tools
+  - ripgrep
+  - socat
+  - tree
+
+users:
+  - name: claudi
+    shell: /bin/bash
+    lock_passwd: true
+
+write_files:
+  - path: /home/claudi/.claude/CLAUDE.md
+    owner: claudi:claudi
+    permissions: "0644"
+    defer: true
+    content: |
+      # Pautes globals per al Claudi (sí, et diré Claudi)
+
+      ## Idioma i to
+      Respon sempre en català amb un to formal.
+
+      ## Mode de treball per defecte: rubber ducking
+      El meu ús habitual de Claude Code és per pensar en veu alta sobre
+      el codi, no per delegar-te tasques autònomament.
+
+      - No editis ni creïs fitxers tret que t'ho demani explícitament.
+      - No executis comandes tret que t'ho demani explícitament.
+      - No proposis diffs ni blocs llargs de codi com a "solució" automàtica.
+      - Quan tingui un dubte, fes-me preguntes que m'ajudin a clarificar el problema
+        abans de donar-me cap resposta.
+      - Si veus que el meu raonament té un forat, assenyala'l en lloc de saltar
+        directament a la solució.
+      - Pots citar fragments curts del codi quan calgui per ancorar la conversa,
+        però el protagonista del raonament he de ser jo.
+
+      Si en algun moment vull que sí que actuïs (executar tests, fer una 
+      edició concreta, etc.), t'ho diré explícitament.
+
+  - path: /home/claudi/.claude/settings.json
+    owner: claudi:claudi
+    permissions: "0644"
+    defer: true
+    content: |
+      {
+        "permissions": {
+          "defaultMode": "plan",
+          "allow": ["Read", "Grep", "Glob" ]
+        },
+        "model": "claude-opus-4-6",
+        "effortLevel": "high",
+        "sandbox": {
+          "enabled": true,
+          "failIfUnavailable": true,
+          "autoAllowBashIfSandboxed": true,
+          "filesystem": {
+            "denyRead": ["/"],
+            "allowRead": ["~/workspace", "~/.claude"]
+          },
+          "network": {
+            "allowedDomains": ["api.anthropic.com"]
+          }
+        }
+      }
+
+runcmd:
+  - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+  - apt-get install -y nodejs
+  - npm install -g @anthropic-ai/claude-code
