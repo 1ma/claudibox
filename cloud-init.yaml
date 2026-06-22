@@ -12,6 +12,8 @@ packages:
   - curl
   - git
   - htop
+  - jq
+  - php-cli
   - net-tools
   - ripgrep
   - socat
@@ -32,23 +34,15 @@ write_files:
 
       ## Idioma i to
       Respon sempre en català amb un to formal.
+      Malgrat això, tota la producció de code i de documentació ha de ser per defecte en anglès.
 
-      ## Mode de treball per defecte: rubber ducking
-      El meu ús habitual de Claude Code és per pensar en veu alta sobre
-      el codi, no per delegar-te tasques autònomament.
-
-      - No editis ni creïs fitxers tret que t'ho demani explícitament.
-      - No executis comandes tret que t'ho demani explícitament.
-      - No proposis diffs ni blocs llargs de codi com a "solució" automàtica.
-      - Quan tingui un dubte, fes-me preguntes que m'ajudin a clarificar el problema
-        abans de donar-me cap resposta.
-      - Si veus que el meu raonament té un forat, assenyala'l en lloc de saltar
-        directament a la solució.
-      - Pots citar fragments curts del codi quan calgui per ancorar la conversa,
-        però el protagonista del raonament he de ser jo.
-
-      Si en algun moment vull que sí que actuïs (executar tests, fer una 
-      edició concreta, etc.), t'ho diré explícitament.
+      ## Entorn d'execució
+      Corro dins d'una màquina virtual. Les aplicacions del projecte generalment corren en Docker exposades al host, no dins de la VM.
+      Per tant per accedir a les aplicacions que s'estàn desenvolupament cal saber la IP del host i a vegades ajustar la resolució del DNS.
+      - IP del host: `ip route show default | awk '{print $3}'` (típicament la gateway per defecte).
+      - No tinc sudo ni root dins la VM.
+      - Per accedir a serveis del host que escolten amb hostname (e.g. pàgina web com ara `app.localhost` servida amb Caddy), cal usar `curl --resolve hostname:port:<host_ip>` o el header `Host`, ja que `*.localhost` resol a 127.0.0.1 dins la VM.
+      - Quan no es fa servir hostname (e.g. una API oberta en clar a un port TCP qualsevol) es pot atacar directament per IP:PORT sense preocupar-se del hostname.
 
   - path: /home/claudi/.claude/settings.json
     owner: claudi:claudi
@@ -57,23 +51,35 @@ write_files:
     content: |
       {
         "permissions": {
-          "defaultMode": "plan",
-          "allow": ["Read", "Grep", "Glob" ]
+          "allow": [
+            "Read",
+            "Grep",
+            "Glob"
+          ],
+          "defaultMode": "plan"
         },
         "model": "claude-opus-4-6",
-        "effortLevel": "high",
         "sandbox": {
           "enabled": true,
           "failIfUnavailable": true,
           "autoAllowBashIfSandboxed": true,
-          "filesystem": {
-            "denyRead": ["/"],
-            "allowRead": ["~/workspace", "~/.claude"]
-          },
           "network": {
-            "allowedDomains": ["api.anthropic.com"]
+            "allowedDomains": [
+              "api.anthropic.com"
+            ]
+          },
+          "filesystem": {
+            "denyRead": [
+              "/"
+            ],
+            "allowRead": [
+              "~/workspace",
+              "~/.claude"
+            ]
           }
-        }
+        },
+        "effortLevel": "medium",
+        "theme": "dark"
       }
 
 runcmd:
