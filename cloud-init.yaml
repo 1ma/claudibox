@@ -66,9 +66,19 @@ write_files:
           "allow": [
             "Read",
             "Grep",
-            "Glob"
+            "Glob",
+            "Bash(cat:*)",
+            "Bash(curl:*)",
+            "Bash(find:*)",
+            "Bash(grep:*)",
+            "Bash(head:*)",
+            "Bash(jq:*)",
+            "Bash(ls:*)",
+            "Bash(tail:*)",
+            "Bash(wc:*)",
+            "Bash(yq:*)"
           ],
-          "defaultMode": "plan"
+          "defaultMode": "default"
         },
         "model": "claude-opus-4-6",
         "sandbox": {
