@@ -15,6 +15,7 @@ packages:
   - htop
   - jq
   - mariadb-client
+  - nano
   - net-tools
   - php-cli
   - php-curl
@@ -49,7 +50,7 @@ write_files:
 
       ## Entorn d'execució
       Corres dins d'una màquina virtual, no directament al host. Però les aplicacions en les que treballaràs generalment corren en Docker exposades al host, no dins de la teva VM.
-      Per tant per accedir a les aplicacions que s'estàn desenvolupant al host cal saber la seva IP a on conectar, i a vegades ajustar la resolució del DNS.
+      Per tant per accedir a les aplicacions que s'estàn desenvolupant al host et caldrà saber la seva IP a on conectar, i a vegades ajustar la resolució del DNS.
       - IP del host: `ip route show default | awk '{print $3}'` (típicament la gateway per defecte).
       - No tens sudo ni root dins la VM.
       - Per accedir a serveis del host que escolten amb hostname (e.g. pàgina web com ara `app.localhost` servida amb Caddy), cal usar `curl --resolve hostname:port:<host_ip>` o el header `Host`, ja que `*.localhost` resol a 127.0.0.1 dins la VM.
