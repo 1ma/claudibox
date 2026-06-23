@@ -6,6 +6,7 @@ package_upgrade: true
 timezone: Europe/Andorra
 
 packages:
+  - 7zip
   - bash-completion
   - bubblewrap
   - ca-certificates
@@ -13,11 +14,17 @@ packages:
   - git
   - htop
   - jq
-  - php-cli
+  - mariadb-client
   - net-tools
+  - php-cli
+  - php-curl
+  - php-zip
+  - postgresql-client
   - ripgrep
   - socat
   - tree
+  - unzip
+  - yq
 
 users:
   - name: claudi
@@ -83,6 +90,10 @@ write_files:
       }
 
 runcmd:
+  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  - php -r "if (hash_file('sha384', 'composer-setup.php') === 'c8b085408188070d5f52bcfe4ecfbee5f727afa458b2573b8eaaf77b3419b0bf2768dc67c86944da1544f06fa544fd47') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"
+  - HOME=/root php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  - php -r "unlink('composer-setup.php');"
   - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
   - apt-get install -y nodejs
   - npm install -g @anthropic-ai/claude-code
