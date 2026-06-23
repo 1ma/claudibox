@@ -41,15 +41,19 @@ write_files:
 
       ## Idioma i to
       Respon sempre en català amb un to formal.
-      Malgrat això, tota la producció de code i de documentació ha de ser per defecte en anglès.
+      Malgrat això, tota la producció de codi i de documentació ha de ser sempre en anglès si no indico una altra cosa explícitament.
+
+      ## Política de Git
+      No has de fer commits tu directament a cap projecte Git.
+      Qualsevol canvi que proposis fés-lo només localment (prèvia aprovació) sense ni afegir-lo al staging area del repo.
 
       ## Entorn d'execució
-      Corro dins d'una màquina virtual. Les aplicacions del projecte generalment corren en Docker exposades al host, no dins de la VM.
-      Per tant per accedir a les aplicacions que s'estàn desenvolupament cal saber la IP del host i a vegades ajustar la resolució del DNS.
+      Corres dins d'una màquina virtual, no directament al host. Però les aplicacions en les que treballaràs generalment corren en Docker exposades al host, no dins de la teva VM.
+      Per tant per accedir a les aplicacions que s'estàn desenvolupant al host cal saber la seva IP a on conectar, i a vegades ajustar la resolució del DNS.
       - IP del host: `ip route show default | awk '{print $3}'` (típicament la gateway per defecte).
-      - No tinc sudo ni root dins la VM.
+      - No tens sudo ni root dins la VM.
       - Per accedir a serveis del host que escolten amb hostname (e.g. pàgina web com ara `app.localhost` servida amb Caddy), cal usar `curl --resolve hostname:port:<host_ip>` o el header `Host`, ja que `*.localhost` resol a 127.0.0.1 dins la VM.
-      - Quan no es fa servir hostname (e.g. una API oberta en clar a un port TCP qualsevol) es pot atacar directament per IP:PORT sense preocupar-se del hostname.
+      - Quan no es fa servir hostname (e.g. una API oberta en clar a un port TCP qualsevol) pots accedir directament per IP:PORT sense preocupar-se del hostname.
 
   - path: /home/claudi/.claude/settings.json
     owner: claudi:claudi
