@@ -11,6 +11,7 @@ packages:
   - bubblewrap
   - ca-certificates
   - curl
+  - erlang
   - git
   - htop
   - jq
@@ -23,6 +24,8 @@ packages:
   - postgresql-client
   - ripgrep
   - socat
+  - sqlite3
+  - telnet
   - tree
   - unzip
   - yq
@@ -44,6 +47,14 @@ write_files:
       Respon sempre en català amb un to formal.
       Malgrat això, tota la producció de codi i de documentació ha de ser sempre en anglès si no indico una altra cosa explícitament.
 
+      ## Eines disponibles
+      - Networking (curl, net-tools, socat, telnet)
+      - Clients de bases de dades (MariaDB, Postgres, SQLite3)
+      - Python CLI
+      - PHP & Composer
+      - Erlang & rebar3
+      - Processament de streams (jq, yq, ripgrep)
+
       ## Política de Git
       No has de fer commits tu directament a cap projecte Git.
       Qualsevol canvi que proposis fés-lo només localment (prèvia aprovació) sense ni afegir-lo al staging area del repo.
@@ -54,7 +65,7 @@ write_files:
       - IP del host: `ip route show default | awk '{print $3}'` (típicament la gateway per defecte).
       - No tens sudo ni root dins la VM.
       - Per accedir a serveis del host que escolten amb hostname (e.g. pàgina web com ara `app.localhost` servida amb Caddy), cal usar `curl --resolve hostname:port:<host_ip>` o el header `Host`, ja que `*.localhost` resol a 127.0.0.1 dins la VM.
-      - Quan no es fa servir hostname (e.g. una API oberta en clar a un port TCP qualsevol) pots accedir directament per IP:PORT sense preocupar-se del hostname.
+      - Quan no es fa servir hostname (e.g. una API oberta en clar a un port TCP qualsevol) pots accedir directament per IP:PORT sense preocupar-te del hostname.
 
   - path: /home/claudi/.claude/settings.json
     owner: claudi:claudi
@@ -103,8 +114,16 @@ write_files:
         "effortLevel": "medium",
         "theme": "dark"
       }
+  - path: /home/claudi/.erlang
+    owner: claudi:claudi
+    permissions: "0644"
+    defer: true
+    content: |
+      application:set_env(kernel, shell_history, enabled).
 
 runcmd:
+  - curl -o /usr/local/bin/rebar3 https://s3.amazonaws.com/rebar3/rebar3
+  - chmod +x /usr/local/bin/rebar3
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php -r "if (hash_file('sha384', 'composer-setup.php') === 'c8b085408188070d5f52bcfe4ecfbee5f727afa458b2573b8eaaf77b3419b0bf2768dc67c86944da1544f06fa544fd47') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"
   - HOME=/root php composer-setup.php --install-dir=/usr/local/bin --filename=composer
