@@ -7,7 +7,7 @@ amb certa configuració precarregada (CLAUDE.md i settings.json).
 
 ```shell
 $ ./init.sh
-$ incus exec claudibox -- sudo -iu claudi
+$ incus exec claudibox -- sudo -iu bofh
 $ cd workspace/project
 $ claude
 ```
@@ -15,7 +15,7 @@ $ claude
 Es pot crear un alias a `~/.bashrc` per no haver de recordar la comanda exec:
 
 ```shell
-alias claudi='incus exec claudibox -- sudo -iu claudi'
+alias claudibox='incus exec claudibox -- sudo -iu bofh'
 ```
 
 Docker i Incus poden tenir conflictes de xarxa si corren al mateix host.

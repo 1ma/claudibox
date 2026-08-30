@@ -16,4 +16,4 @@ incus restart claudibox
 
 incus config device add claudibox workspace disk \
   source=$HOME/workspace \
-  path=/home/claudi/workspace
+  path=/home/bofh/workspace

@@ -31,17 +31,17 @@ packages:
   - yq
 
 users:
-  - name: claudi
+  - name: bofh
     shell: /bin/bash
     lock_passwd: true
 
 write_files:
-  - path: /home/claudi/.claude/CLAUDE.md
-    owner: claudi:claudi
+  - path: /home/bofh/.config/opencode/AGENTS.md
+    owner: bofh:bofh
     permissions: "0644"
     defer: true
-    content: |
-      # Pautes globals per al Claudi (sí, et diré Claudi)
+    content: &pautes |
+      # Pautes globals per a agents
 
       ## Idioma i to
       Respon sempre en català amb un to formal.
@@ -67,8 +67,14 @@ write_files:
       - Per accedir a serveis del host que escolten amb hostname (e.g. pàgina web com ara `app.localhost` servida amb Caddy), cal usar `curl --resolve hostname:port:<host_ip>` o el header `Host`, ja que `*.localhost` resol a 127.0.0.1 dins la VM.
       - Quan no es fa servir hostname (e.g. una API oberta en clar a un port TCP qualsevol) pots accedir directament per IP:PORT sense preocupar-te del hostname.
 
-  - path: /home/claudi/.claude/settings.json
-    owner: claudi:claudi
+  - path: /home/bofh/.claude/CLAUDE.md
+    owner: bofh:bofh
+    permissions: "0644"
+    defer: true
+    content: *pautes
+
+  - path: /home/bofh/.claude/settings.json
+    owner: bofh:bofh
     permissions: "0644"
     defer: true
     content: |
@@ -114,8 +120,8 @@ write_files:
         "effortLevel": "medium",
         "theme": "dark"
       }
-  - path: /home/claudi/.erlang
-    owner: claudi:claudi
+  - path: /home/bofh/.erlang
+    owner: bofh:bofh
     permissions: "0644"
     defer: true
     content: |
@@ -130,4 +136,4 @@ runcmd:
   - php -r "unlink('composer-setup.php');"
   - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
   - apt-get install -y nodejs
-  - npm install -g @anthropic-ai/claude-code
+  - npm install -g @anthropic-ai/claude-code opencode-ai@latest
