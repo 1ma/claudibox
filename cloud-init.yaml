@@ -138,3 +138,13 @@ runcmd:
   - apt-get install -y nodejs
   - su - bofh -c "mkdir -p ~/.local && npm config set prefix ~/.local"
   - su - bofh -c "npm install -g @anthropic-ai/claude-code opencode-ai@latest"
+  - su - bofh -c "curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh"
+  - su - bofh -c "rtk init -g --auto-patch"
+  - su - bofh -c "rtk init -g --auto-patch --opencode"
+  - su - bofh -c "rtk telemetry disable"
+  - su - bofh -c "curl -LO https://github.com/aovestdipaperino/tokensave/releases/download/v7.11.1/tokensave-v7.11.1-x86_64-linux.tar.gz"
+  - su - bofh -c "tar zxf tokensave-v7.11.1-x86_64-linux.tar.gz"
+  - su - bofh -c "mv tokensave /home/bofh/.local/bin/tokensave"
+  - su - bofh -c "rm tokensave-v7.11.1-x86_64-linux.tar.gz"
+  - su - bofh -c "tokensave install --agent claude --git-hook=no"
+  - su - bofh -c "tokensave install --agent opencode --git-hook=no"
