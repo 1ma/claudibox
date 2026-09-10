@@ -136,4 +136,5 @@ runcmd:
   - php -r "unlink('composer-setup.php');"
   - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
   - apt-get install -y nodejs
-  - npm install -g @anthropic-ai/claude-code opencode-ai@latest
+  - su - bofh -c "mkdir -p ~/.local && npm config set prefix ~/.local"
+  - su - bofh -c "npm install -g @anthropic-ai/claude-code opencode-ai@latest"
