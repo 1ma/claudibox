@@ -21,6 +21,7 @@ packages:
   - php-cli
   - php-curl
   - php-zip
+  - poppler-utils
   - postgresql-client
   - ripgrep
   - socat
