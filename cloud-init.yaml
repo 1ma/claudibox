@@ -110,11 +110,11 @@ write_files:
           },
           "filesystem": {
             "denyRead": [
-              "/"
+              "~"
             ],
             "allowRead": [
-              "~/workspace",
-              "~/.claude"
+              "~/.claude",
+              "~/.local"
             ]
           }
         },

@@ -5,7 +5,8 @@ set -euo pipefail
 set +x
 incus launch images:debian/13/cloud claudibox \
   --config=boot.autostart=false \
-  --config=cloud-init.user-data="$(< cloud-init.yaml)"
+  --config=cloud-init.user-data="$(< cloud-init.yaml)" \
+  --config=security.nesting=true
 set -x
 
 incus exec claudibox -- cloud-init status --wait
