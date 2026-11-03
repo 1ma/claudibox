@@ -5,6 +5,12 @@ package_upgrade: true
 
 timezone: Europe/Andorra
 
+apt:
+  sources:
+    php-sury:
+      source: "deb https://packages.sury.org/php/ $RELEASE main"
+      keyid: B188E2B695BD4743
+
 packages:
   - 7zip
   - bash-completion
@@ -18,9 +24,9 @@ packages:
   - mariadb-client
   - nano
   - net-tools
-  - php-cli
-  - php-curl
-  - php-zip
+  - php8.5-cli
+  - php8.5-curl
+  - php8.5-zip
   - poppler-utils
   - postgresql-client
   - ripgrep
