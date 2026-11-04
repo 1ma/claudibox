@@ -107,7 +107,7 @@ write_files:
         "model": "claude-opus-4-6",
         "sandbox": {
           "enabled": true,
-          "strictMode": true,
+          "allowUnsandboxedCommands": false,
           "failIfUnavailable": true,
           "autoAllowBashIfSandboxed": true,
           "network": {
